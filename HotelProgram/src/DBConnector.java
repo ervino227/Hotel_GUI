@@ -11,53 +11,61 @@ public class DBConnector {
 
 	// Database credentials
 	static final String USER = "root";
-	static final String PASS = "";
+	static final String PASS = "root";
 
 	Connection conn = null;
 	Statement stmt = null;
 
 	public DBConnector() {
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
-
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-		      //STEP 4: Execute a query
-		      System.out.println("Creating database...");
-		      stmt = conn.createStatement();
-		      
-		      String sql = "CREATE DATABASE mySTUDENTS";
-		      stmt.executeUpdate(sql);
-		      System.out.println("Database created successfully...");
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+		
+	
 	}
 
-	public void createGuest() {
+	public void createGuest(Guest g) {
+		if(!g.getFirstName().isEmpty() && !g.getLastName().isEmpty()) {
+			try{
+			      //STEP 2: Register JDBC driver
+			      Class.forName("com.mysql.jdbc.Driver");
 
+			      //STEP 3: Open a connection
+			      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+
+			      //STEP 4: Execute a query
+			      stmt = conn.createStatement();
+			      //firstname, last name , address city phone email
+			      
+			      String sql = "INSERT INTO guesttable (`firstName`, `lastName`, `Address`, `City`, `Phone`, `Email`) "
+			      		+ "VALUES ('" + g.getFirstName()+"','"+g.getLastName()+"','"+g.getAddress()+"','"+g.getCity()+"','"+g.getPhone()+"','"+g.getEmail()+"');";
+
+			      stmt.executeUpdate(sql);
+			   }
+			catch(SQLException se){
+			      //Handle errors for JDBC
+			      se.printStackTrace();
+			   }
+			catch(Exception e){
+			      //Handle errors for Class.forName
+			      e.printStackTrace();
+			   }
+			finally{
+			      //finally block used to close resources
+			      try{
+			         if(stmt!=null)
+			            stmt.close();
+			      }catch(SQLException se2){
+			    	  
+			      }// nothing we can do
+			      try{
+			         if(conn!=null)
+			            conn.close();
+			      }catch(SQLException se){
+			         se.printStackTrace();
+			      }//end finally try
+			   }//end try
+		}
+		else
+			System.out.println("Missing fields");
+			
 	}
 
 	public void createReservation() {

@@ -201,7 +201,7 @@ public class ReservationWindow extends JFrame {
 				String firstName,lastName,address,city,phone,email;
 				int numAdults, numChild;
 				checkIn = myCheckIn.getText();
-				checkOut = myCheckOut.getText();
+				checkOut = "";
 				numAdults = (int) adultsCount.getValue();
 				numChild = (int) childCount.getValue();
 				mySuite = getSuite();
@@ -214,6 +214,8 @@ public class ReservationWindow extends JFrame {
 				email = myEmail.getText();
 				
 				Guest thisGuest = new Guest(firstName, lastName, address, city, phone, email);
+				DBConnector DB = new DBConnector();
+				DB.createGuest(thisGuest);
 				
 				//get a room number based on selected suite
 				//add room number to the reservation details 
