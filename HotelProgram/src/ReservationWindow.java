@@ -79,10 +79,11 @@ public class ReservationWindow extends JFrame {
 		childCount.setBounds(224, 126, 30, 20);
 		detailsPanel.add(childCount);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
-		comboBox.setBounds(97, 81, 57, 22);
-		detailsPanel.add(comboBox);
+		
+		JComboBox nightsSelector = new JComboBox();
+		nightsSelector.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
+		nightsSelector.setBounds(97, 81, 57, 22);
+		detailsPanel.add(nightsSelector);
 		
 		JPanel roomPanel = new JPanel();
 		roomPanel.setBackground(new Color(255,242,204));
@@ -199,9 +200,9 @@ public class ReservationWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String checkIn, checkOut, mySuite;
 				String firstName,lastName,address,city,phone,email;
-				int numAdults, numChild;
+				int numAdults, numChild, numNights;
 				checkIn = myCheckIn.getText();
-				checkOut = "";
+				numNights = (nightsSelector.getSelectedIndex() + 1);
 				numAdults = (int) adultsCount.getValue();
 				numChild = (int) childCount.getValue();
 				mySuite = getSuite();
@@ -213,15 +214,19 @@ public class ReservationWindow extends JFrame {
 				phone = myPhone.getText();
 				email = myEmail.getText();
 				
-				Guest thisGuest = new Guest(firstName, lastName, address, city, phone, email);
+				//Create a Database Connection object
 				DBConnector DB = new DBConnector();
+				
+				//Add the guest to the guest table in the database
+				Guest thisGuest = new Guest(firstName, lastName, address, city, phone, email);
 				DB.createGuest(thisGuest);
 				
 				//get a room number based on selected suite
 				//add room number to the reservation details 
 				
-				Reservation thisReservation = new Reservation(thisGuest, numAdults, numChild, checkIn, checkOut, mySuite);
-				
+				//Add the reservation to the reservations table in the database
+				Reservation thisReservation = new Reservation(thisGuest, numAdults, numChild, checkIn, numNights, mySuite);
+				DB.createReservation(thisReservation);
 				//JOptionPane.showMessageDialog(null, "name Details: " + thisReservation.getSuiteSelected() + " \nAdults: " + thisReservation.getNumAdults());
 				
 				//confirm();

@@ -1,17 +1,17 @@
 public class Reservation {
-	private String checkIn, checkOut;
-	private int numAdults, numChildren;
+	private String checkIn;
+	private int numAdults, numChildren, numNights;
 	private String suiteSelected;
 	private String firstName, lastName, phone;
 	
-	public Reservation(Guest g,int adults,int children,String inDate, String outDate, String suite) {
+	public Reservation(Guest g,int adults,int children,String inDate, int numNights, String suite) {
 		firstName = g.getFirstName();
 		lastName = g.getLastName();
 		phone = g.getPhone();
 		numAdults = adults;
 		numChildren = children;
 		checkIn = inDate;
-		checkOut = outDate;
+		this.numNights = numNights;
 		suiteSelected = suite;
 	}
 
@@ -38,6 +38,39 @@ public class Reservation {
 	public void setSuiteSelected(String suiteSelected) {
 		this.suiteSelected = suiteSelected;
 	}
+
+	public String getCheckIn() {
+		return checkIn;
+	}
+
+	public void setCheckIn(String checkIn) {
+		this.checkIn = checkIn;
+	}
+
+	public int getNumNights() {
+		return numNights;
+	}
+
+	public void setNumNights(int numNights) {
+		this.numNights = numNights;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	
 	
 	
