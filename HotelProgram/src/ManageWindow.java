@@ -12,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class ManageWindow extends JFrame {
 
@@ -102,9 +104,9 @@ public class ManageWindow extends JFrame {
 		textField_3.setBounds(375, 169, 114, 20);
 		contentPane.add(textField_3);
 		
-		table = new JTable();
-		table.setBounds(43, 220, 661, 249);
-		contentPane.add(table);
+		String[] colNames = {"ID", "First Name", "Last Name", "Adults", "Children", "Check-In", "Nights", "Suite" };
+		DBConnector DB = new DBConnector();
+		Object[][] data = DB.getReservations();
 		
 		JButton btnApplyFilter = new JButton("APPLY FILTER");
 		btnApplyFilter.setForeground(new Color(0, 100, 0));
@@ -121,10 +123,16 @@ public class ManageWindow extends JFrame {
 		btnDeleteReservation.setForeground(new Color(0, 100, 0));
 		btnDeleteReservation.setBounds(326, 520, 163, 40);
 		contentPane.add(btnDeleteReservation);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(43, 228, 667, 281);
+		contentPane.add(scrollPane);
+		table = new JTable(data ,colNames);
+		scrollPane.setViewportView(table);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 	
 	public void closeWindow() {
 		this.dispose();
 	}
-
 }
