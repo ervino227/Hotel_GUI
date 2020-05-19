@@ -17,6 +17,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JSeparator;
+import javax.swing.JToggleButton;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SpinnerDateModel;
+import java.util.Date;
+import java.util.Calendar;
 
 public class ReservationWindow extends JFrame {
 
@@ -34,6 +40,13 @@ public class ReservationWindow extends JFrame {
 	 * Create the frame.
 	 */
 	public ReservationWindow() {
+		int masterRooms, queenRooms, twinRooms, familyRooms;
+		DBConnector DB = new DBConnector();
+		masterRooms = DB.getNumMasterRooms();
+		queenRooms = DB.getNumQueenRooms();
+		twinRooms = DB.getNumTwinRooms();
+		familyRooms = DB.getNumFamilyRooms();
+		
 		setTitle("Lakeview Hotel - New Reservation");
 		setBounds(100, 100, 770, 646);
 		contentPane = new JPanel();
@@ -46,44 +59,51 @@ public class ReservationWindow extends JFrame {
 		detailsPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), 
 				new Color(160, 160, 160)), "Date and Party Options", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		detailsPanel.setBackground(new Color(255,242,204));
-		detailsPanel.setBounds(38, 74, 306, 184);
+		detailsPanel.setBounds(38, 74, 306, 212);
 		contentPane.add(detailsPanel);
 		detailsPanel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Check In Date");
-		lblNewLabel_1.setBounds(38, 46, 110, 14);
+		lblNewLabel_1.setBounds(38, 70, 91, 14);
 		detailsPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Nights");
-		lblNewLabel_2.setBounds(38, 85, 57, 14);
+		lblNewLabel_2.setBounds(38, 117, 57, 14);
 		detailsPanel.add(lblNewLabel_2);
 		
 		myCheckIn = new JTextField();
-		myCheckIn.setBounds(158, 43, 96, 20);
+		myCheckIn.setHorizontalAlignment(SwingConstants.TRAILING);
+		myCheckIn.setBounds(139, 67, 136, 20);
 		detailsPanel.add(myCheckIn);
 		myCheckIn.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Adults");
-		lblNewLabel_2_1.setBounds(38, 129, 57, 14);
+		lblNewLabel_2_1.setBounds(41, 159, 57, 14);
 		detailsPanel.add(lblNewLabel_2_1);
 		
 		JSpinner adultsCount = new JSpinner();
-		adultsCount.setBounds(97, 126, 30, 20);
+		adultsCount.setModel(new SpinnerNumberModel(1, 0, 6, 1));
+		adultsCount.setBounds(100, 156, 30, 20);
 		detailsPanel.add(adultsCount);
 		
 		JLabel lblNewLabel_2_1_1 = new JLabel("Children");
-		lblNewLabel_2_1_1.setBounds(158, 129, 57, 14);
+		lblNewLabel_2_1_1.setBounds(161, 159, 57, 14);
 		detailsPanel.add(lblNewLabel_2_1_1);
 		
 		JSpinner childCount = new JSpinner();
-		childCount.setBounds(224, 126, 30, 20);
+		childCount.setBounds(227, 156, 30, 20);
 		detailsPanel.add(childCount);
 		
 		
 		JComboBox nightsSelector = new JComboBox();
 		nightsSelector.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"}));
-		nightsSelector.setBounds(97, 81, 57, 22);
+		nightsSelector.setBounds(97, 113, 57, 22);
 		detailsPanel.add(nightsSelector);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("mm/dd/yyyy");
+		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
+		lblNewLabel_1_1.setBounds(184, 53, 91, 14);
+		detailsPanel.add(lblNewLabel_1_1);
 		
 		JPanel roomPanel = new JPanel();
 		roomPanel.setBackground(new Color(255,242,204));
@@ -115,6 +135,26 @@ public class ReservationWindow extends JFrame {
 		RoomGroup.add(radioFamily);
 		radioFamily.setBounds(23, 111, 109, 23);
 		roomPanel.add(radioFamily);
+		
+		String masterString = "" + masterRooms + " rooms available";
+		JLabel availableMaster = new JLabel(masterString);
+		availableMaster.setBounds(150, 35, 146, 19);
+		roomPanel.add(availableMaster);
+		
+		String queenString = "" + queenRooms + " rooms available";
+		JLabel availableQueen = new JLabel(queenString);
+		availableQueen.setBounds(150, 61, 146, 19);
+		roomPanel.add(availableQueen);
+		
+		String twinString = "" + twinRooms + " rooms available";
+		JLabel availableTwin = new JLabel(twinString);
+		availableTwin.setBounds(150, 87, 146, 19);
+		roomPanel.add(availableTwin);
+		
+		String familyString = "" + familyRooms + " rooms available";
+		JLabel availableFamily = new JLabel(familyString);
+		availableFamily.setBounds(150, 113, 146, 19);
+		roomPanel.add(availableFamily);
 		
 		JPanel guestInfoPanel = new JPanel();
 		guestInfoPanel.setBorder(new TitledBorder(null, "Guest Information", TitledBorder.CENTER, TitledBorder.TOP, null, null));
