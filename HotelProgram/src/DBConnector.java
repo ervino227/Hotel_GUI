@@ -18,362 +18,452 @@ public class DBConnector {
 	Statement stmt = null;
 
 	public DBConnector() {
-		
-	
+
 	}
 
 	public void createGuest(Guest g) {
-		if(!g.getFirstName().isEmpty() && !g.getLastName().isEmpty()) {
-			try{
-			      //STEP 2: Register JDBC driver
-			      Class.forName("com.mysql.jdbc.Driver");
+		if (!g.getFirstName().isEmpty() && !g.getLastName().isEmpty()) {
+			try {
+				// STEP 2: Register JDBC driver
+				Class.forName("com.mysql.jdbc.Driver");
 
-			      //STEP 3: Open a connection
-			      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+				// STEP 3: Open a connection
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-			      //STEP 4: Execute a query
-			      stmt = conn.createStatement();
-			      //firstname, last name , address city phone email
-			      
-			      String sql = "INSERT INTO guesttable (`firstName`, `lastName`, `Address`, `City`, `Phone`, `Email`) "
-			      		+ "VALUES ('" + g.getFirstName()+"','"+g.getLastName()+"','"+g.getAddress()+"','"+g.getCity()+"','"+g.getPhone()+"','"+g.getEmail()+"');";
+				// STEP 4: Execute a query
+				stmt = conn.createStatement();
+				// firstname, last name , address city phone email
 
-			      stmt.executeUpdate(sql);
-			   }
-			catch(SQLException se){
-			      //Handle errors for JDBC
-			      se.printStackTrace();
-			   }
-			catch(Exception e){
-			      //Handle errors for Class.forName
-			      e.printStackTrace();
-			   }
-			finally{
-			      //finally block used to close resources
-			      try{
-			         if(stmt!=null)
-			            stmt.close();
-			      }catch(SQLException se2){
-			    	  
-			      }// nothing we can do
-			      try{
-			         if(conn!=null)
-			            conn.close();
-			      }catch(SQLException se){
-			         se.printStackTrace();
-			      }//end finally try
-			   }//end try
-		}
-		else
+				String sql = "INSERT INTO guesttable (`firstName`, `lastName`, `Address`, `City`, `Phone`, `Email`) "
+						+ "VALUES ('" + g.getFirstName() + "','" + g.getLastName() + "','" + g.getAddress() + "','"
+						+ g.getCity() + "','" + g.getPhone() + "','" + g.getEmail() + "');";
+
+				stmt.executeUpdate(sql);
+			} catch (SQLException se) {
+				// Handle errors for JDBC
+				se.printStackTrace();
+			} catch (Exception e) {
+				// Handle errors for Class.forName
+				e.printStackTrace();
+			} finally {
+				// finally block used to close resources
+				try {
+					if (stmt != null)
+						stmt.close();
+				} catch (SQLException se2) {
+
+				} // nothing we can do
+				try {
+					if (conn != null)
+						conn.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				} // end finally try
+			} // end try
+		} else
 			System.out.println("Missing fields");
-			
+
 	}
 
 	public void createReservation(Reservation r) {
-		if(!r.getSuiteSelected().isEmpty() && r.getNumAdults() > 0) {
-			try{
-			      //STEP 2: Register JDBC driver
-			      Class.forName("com.mysql.jdbc.Driver");
+		if (!r.getSuiteSelected().isEmpty() && r.getNumAdults() > 0) {
+			try {
+				// STEP 2: Register JDBC driver
+				Class.forName("com.mysql.jdbc.Driver");
 
-			      //STEP 3: Open a connection
-			      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+				// STEP 3: Open a connection
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-			      //STEP 4: Execute a query
-			      stmt = conn.createStatement();
-			      
-			      
-			      String sql = "INSERT INTO `hotelsystem`.`reservations` (`firstName`, `lastName`, `numAdults`, `numChild`, `numNights`, `SuiteType`) "
-			      		+ "VALUES ('" + r.getFirstName() +"', '" + r.getLastName()+"', " + r.getNumAdults()+", "+r.getNumChildren()+", "+r.getNumNights()+", '"+r.getSuiteSelected()+ "');" ;
+				// STEP 4: Execute a query
+				stmt = conn.createStatement();
 
-			      stmt.executeUpdate(sql);
-			   }
-			catch(SQLException se){
-			      //Handle errors for JDBC
-			      se.printStackTrace();
-			   }
-			catch(Exception e){
-			      //Handle errors for Class.forName
-			      e.printStackTrace();
-			   }
-			finally{
-			      //finally block used to close resources
-			      try{
-			         if(stmt!=null)
-			            stmt.close();
-			      }catch(SQLException se2){
-			    	  
-			      }// nothing we can do
-			      try{
-			         if(conn!=null)
-			            conn.close();
-			      }catch(SQLException se){
-			         se.printStackTrace();
-			      }//end finally try
-			   }//end try
-		}
-		else
+				String sql = "INSERT INTO `hotelsystem`.`reservations` (`firstName`, `lastName`, `numAdults`, `numChild`, `Check-In`,`numNights`, `SuiteType`) "
+						+ "VALUES ('" + r.getFirstName() + "', '" + r.getLastName() + "', " + r.getNumAdults() + ", "
+						+ r.getNumChildren() + ", '" +  r.getCheckIn() + "', " +  r.getNumNights() + " , '" + r.getSuiteSelected() + "');";
+
+				stmt.executeUpdate(sql);
+			} catch (SQLException se) {
+				// Handle errors for JDBC
+				se.printStackTrace();
+			} catch (Exception e) {
+				// Handle errors for Class.forName
+				e.printStackTrace();
+			} finally {
+				// finally block used to close resources
+				try {
+					if (stmt != null)
+						stmt.close();
+				} catch (SQLException se2) {
+
+				} // nothing we can do
+				try {
+					if (conn != null)
+						conn.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				} // end finally try
+			} // end try
+		} else
 			System.out.println("Missing fields");
 	}
-	
+
 	public Object[][] getReservations() {
 		Object[][] array = null;
-		
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
-		      
-		      String sql = "SELECT * FROM reservations;" ;
-		      
-		      ResultSet results =  stmt.executeQuery(sql);
-		      results.last();
-		      int numRows = results.getRow();
-		      array = new Object[numRows][8];
-		      results.first();
-		      for(int i =1; i<=numRows; i++) {
-		    	  int id = results.getInt("idreservations");
-		    	  String firstName = results.getString(2);
-		    	  String lastName = results.getString(3);
-		    	  int adults = results.getInt(4);
-		    	  int children = results.getInt(5);
-		    	  String checkIn = results.getString(6);
-		    	  int nights = results.getInt(7);
-		    	  String suite = results.getString(8);
-		    	  
-		    	  array[i-1][0] = id;
-		    	  array[i-1][1] = firstName;
-		    	  array[i-1][2] = lastName;
-		    	  array[i-1][3] = adults;
-		    	  array[i-1][4] = children;
-		    	  array[i-1][5] = checkIn;
-		    	  array[i-1][6] = nights;
-		    	  array[i-1][7] = suite;
-		    	  
-		    	  results.next();
-		      }
-		     
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		    	  
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
+
+			String sql = "SELECT * FROM reservations;";
+
+			ResultSet results = stmt.executeQuery(sql);
+			results.last();
+			int numRows = results.getRow();
+			array = new Object[numRows][8];
+			results.first();
+			for (int i = 1; i <= numRows; i++) {
+				int id = results.getInt("idreservations");
+				String firstName = results.getString(2);
+				String lastName = results.getString(3);
+				int adults = results.getInt(4);
+				int children = results.getInt(5);
+				String checkIn = results.getString(6);
+				int nights = results.getInt(7);
+				String suite = results.getString(8);
+
+				array[i - 1][0] = id;
+				array[i - 1][1] = firstName;
+				array[i - 1][2] = lastName;
+				array[i - 1][3] = adults;
+				array[i - 1][4] = children;
+				array[i - 1][5] = checkIn;
+				array[i - 1][6] = nights;
+				array[i - 1][7] = suite;
+
+				results.next();
+			}
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 		return array;
-		
+
 	}
-	
+
+	public Object[][] getRooms() {
+		Object[][] array = null;
+
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
+
+			String sql = "SELECT * FROM hotelRooms;";
+
+			ResultSet results = stmt.executeQuery(sql);
+			results.last();
+			int numRows = results.getRow();
+			array = new Object[numRows][3];
+			results.first();
+			for (int i = 1; i <= numRows; i++) {
+				int roomNum = results.getInt(1);
+				String roomType = results.getString(2);
+				String roomStatus = results.getString(3);
+
+				array[i - 1][0] = roomNum;
+				array[i - 1][1] = roomType;
+				array[i - 1][2] = roomStatus;
+
+				results.next();
+			}
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return array;
+	}
+
+	public void changeRoomStatus(int roomNum, String roomStatus) {
+		if (roomStatus.equals("Open")) {
+			// set to closed
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+				stmt = conn.createStatement();
+				String sql = "UPDATE hotelrooms SET status = 'Closed' WHERE roomNumber = " + roomNum + ";";
+				stmt.executeUpdate(sql);
+			} catch (SQLException se) {
+				// Handle errors for JDBC
+				se.printStackTrace();
+			} catch (Exception e) {
+				// Handle errors for Class.forName
+				e.printStackTrace();
+			} finally {
+				// finally block used to close resources
+				try {
+					if (stmt != null)
+						stmt.close();
+				} catch (SQLException se2) {
+
+				} // nothing we can do
+				try {
+					if (conn != null)
+						conn.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				} // end finally try
+			} // end try
+		} else if (roomStatus.equals("Closed")) {
+			// set to open
+			try {
+				Class.forName("com.mysql.jdbc.Driver");
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+				stmt = conn.createStatement();
+				String sql = "UPDATE hotelrooms SET status = 'Open' WHERE roomNumber = " + roomNum + ";";
+				stmt.executeUpdate(sql);
+			} catch (SQLException se) {
+				// Handle errors for JDBC
+				se.printStackTrace();
+			} catch (Exception e) {
+				// Handle errors for Class.forName
+				e.printStackTrace();
+			} finally {
+				// finally block used to close resources
+				try {
+					if (stmt != null)
+						stmt.close();
+				} catch (SQLException se2) {
+
+				} // nothing we can do
+				try {
+					if (conn != null)
+						conn.close();
+				} catch (SQLException se) {
+					se.printStackTrace();
+				} // end finally try
+			} // end try
+		}
+	}
+
 	public int getNumMasterRooms() {
-		
+
 		int numRooms = 0;
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
-		      
-		      
-		      String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Master' and status = 'Open';" ;
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
 
-		      ResultSet result = stmt.executeQuery(sql);
-		      
-		      while(result.next()) {
-		    	  numRooms++;
-		      }
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		    	  
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+			String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Master' and status = 'Open';";
+
+			ResultSet result = stmt.executeQuery(sql);
+
+			while (result.next()) {
+				numRooms++;
+			}
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 		return numRooms;
 	}
-	
+
 	public int getNumQueenRooms() {
 		int numRooms = 0;
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
 
-		      String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Queen' and status = 'Open';" ;
+			String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Queen' and status = 'Open';";
 
-		      ResultSet result = stmt.executeQuery(sql);
-		      
-		      while(result.next()) {
-		    	  numRooms++;
-		      }
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		    	  
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+			ResultSet result = stmt.executeQuery(sql);
+
+			while (result.next()) {
+				numRooms++;
+			}
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 		return numRooms;
 	}
-	
+
 	public int getNumTwinRooms() {
 		int numRooms = 0;
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
-		      
-		      
-		      String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Twin' and status = 'Open';" ;
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
 
-		      ResultSet result = stmt.executeQuery(sql);
-		      
-		      while(result.next()) {
-		    	  numRooms++;
-		      }
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		    	  
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+			String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Twin' and status = 'Open';";
+
+			ResultSet result = stmt.executeQuery(sql);
+
+			while (result.next()) {
+				numRooms++;
+			}
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 		return numRooms;
 	}
-	
+
 	public int getNumFamilyRooms() {
+
 		int numRooms = 0;
-		try{
-		      //STEP 2: Register JDBC driver
-		      Class.forName("com.mysql.jdbc.Driver");
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
 
-		      //STEP 3: Open a connection
-		      conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
 
-		      //STEP 4: Execute a query
-		      stmt = conn.createStatement();
-		      
-		      
-		      String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Family' and status = 'Open';" ;
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
 
-		      ResultSet result = stmt.executeQuery(sql);
-		      
-		      while(result.next()) {
-		    	  numRooms++;
-		      }
-		   }
-		catch(SQLException se){
-		      //Handle errors for JDBC
-		      se.printStackTrace();
-		   }
-		catch(Exception e){
-		      //Handle errors for Class.forName
-		      e.printStackTrace();
-		   }
-		finally{
-		      //finally block used to close resources
-		      try{
-		         if(stmt!=null)
-		            stmt.close();
-		      }catch(SQLException se2){
-		    	  
-		      }// nothing we can do
-		      try{
-		         if(conn!=null)
-		            conn.close();
-		      }catch(SQLException se){
-		         se.printStackTrace();
-		      }//end finally try
-		   }//end try
+			String sql = "SELECT * FROM hotelrooms WHERE roomtype = 'Family' and status = 'Open';";
+
+			ResultSet result = stmt.executeQuery(sql);
+
+			while (result.next()) {
+				numRooms++;
+			}
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 		return numRooms;
-	}
-	public void closeConnection() {
-		
 	}
 
 }

@@ -104,7 +104,7 @@ public class ManageWindow extends JFrame {
 		textField_3.setBounds(375, 169, 114, 20);
 		contentPane.add(textField_3);
 		
-		String[] colNames = {"ID", "First Name", "Last Name", "Adults", "Children", "Check-In", "Nights", "Suite" };
+		String[] colNames = {"Reservation #", "First Name", "Last Name", "Adults", "Children", "Check-In", "Nights", "Suite" };
 		DBConnector DB = new DBConnector();
 		Object[][] data = DB.getReservations();
 		

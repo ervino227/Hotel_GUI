@@ -116,24 +116,32 @@ public class ReservationWindow extends JFrame {
 		radioMaster.setBackground(new Color(255,242,204));
 		RoomGroup.add(radioMaster);
 		radioMaster.setBounds(23, 33, 109, 23);
+		if(masterRooms == 0)
+			radioMaster.setEnabled(false);
 		roomPanel.add(radioMaster);
 		
 		JRadioButton radioQueen = new JRadioButton("Queen Suite");
 		radioQueen.setBackground(new Color(255,242,204));
 		RoomGroup.add(radioQueen);
 		radioQueen.setBounds(23, 59, 109, 23);
+		if(queenRooms==0)
+			radioQueen.setEnabled(false);
 		roomPanel.add(radioQueen);
 		
 		JRadioButton radioTwin = new JRadioButton("Twin Suite");
 		radioTwin.setBackground(new Color(255,242,204));
 		RoomGroup.add(radioTwin);
 		radioTwin.setBounds(23, 85, 109, 23);
+		if(twinRooms==0)
+			radioTwin.setEnabled(false);
 		roomPanel.add(radioTwin);
 		
 		JRadioButton radioFamily = new JRadioButton("Family Suite");
 		radioFamily.setBackground(new Color(255,242,204));
 		RoomGroup.add(radioFamily);
 		radioFamily.setBounds(23, 111, 109, 23);
+		if(familyRooms==0)
+			radioFamily.setEnabled(false);
 		roomPanel.add(radioFamily);
 		
 		String masterString = "" + masterRooms + " rooms available";
@@ -238,7 +246,7 @@ public class ReservationWindow extends JFrame {
 		JButton btnMakeReservation = new JButton("MAKE RESERVATION");
 		btnMakeReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String checkIn, checkOut, mySuite;
+				String checkIn, mySuite;
 				String firstName,lastName,address,city,phone,email;
 				int numAdults, numChild, numNights;
 				checkIn = myCheckIn.getText();
