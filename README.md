@@ -31,3 +31,15 @@ image for managing rooms
 Rooms can also be disabled for maintenance or cleaning, if there is no reservation
 
 ![JWkoyg.jpg](https://iili.io/JWkoyg.jpg)
+
+### Should you decide to clone this repo,
+
+Make sure you have installed:
+  - Java
+  - mySQL
+
+furthermore, in the file **DBConnector.java** be sure to provide your password for the mySQL database.
+```
+static final String USER = "root";
+static final String PASS = "";
+```
