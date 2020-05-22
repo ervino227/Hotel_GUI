@@ -10,24 +10,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSeparator;
-import javax.swing.JToggleButton;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SpinnerDateModel;
-import java.util.Date;
-import java.util.Calendar;
 
 public class ReservationWindow extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField myCheckIn;
 	private final ButtonGroup RoomGroup = new ButtonGroup();
 	private JTextField myFirstName;
 	private JTextField myLastName;
@@ -39,6 +32,7 @@ public class ReservationWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public ReservationWindow() {
 		int masterRooms, queenRooms, twinRooms, familyRooms;
 		DBConnector DB = new DBConnector();
@@ -64,18 +58,12 @@ public class ReservationWindow extends JFrame {
 		detailsPanel.setLayout(null);
 		
 		JLabel lblNewLabel_1 = new JLabel("Check In Date");
-		lblNewLabel_1.setBounds(38, 70, 91, 14);
+		lblNewLabel_1.setBounds(39, 39, 91, 14);
 		detailsPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Nights");
 		lblNewLabel_2.setBounds(38, 117, 57, 14);
 		detailsPanel.add(lblNewLabel_2);
-		
-		myCheckIn = new JTextField();
-		myCheckIn.setHorizontalAlignment(SwingConstants.TRAILING);
-		myCheckIn.setBounds(139, 67, 136, 20);
-		detailsPanel.add(myCheckIn);
-		myCheckIn.setColumns(10);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("Adults");
 		lblNewLabel_2_1.setBounds(41, 159, 57, 14);
@@ -91,6 +79,7 @@ public class ReservationWindow extends JFrame {
 		detailsPanel.add(lblNewLabel_2_1_1);
 		
 		JSpinner childCount = new JSpinner();
+		childCount.setModel(new SpinnerNumberModel(0, 0, 10, 1));
 		childCount.setBounds(227, 156, 30, 20);
 		detailsPanel.add(childCount);
 		
@@ -100,10 +89,20 @@ public class ReservationWindow extends JFrame {
 		nightsSelector.setBounds(97, 113, 57, 22);
 		detailsPanel.add(nightsSelector);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("mm/dd/yyyy");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.TRAILING);
-		lblNewLabel_1_1.setBounds(184, 53, 91, 14);
-		detailsPanel.add(lblNewLabel_1_1);
+		JComboBox monthSelector = new JComboBox();
+		monthSelector.setModel(new DefaultComboBoxModel(new String[] {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"}));
+		monthSelector.setBounds(39, 66, 49, 22);
+		detailsPanel.add(monthSelector);
+		
+		JComboBox daySelector = new JComboBox();
+		daySelector.setModel(new DefaultComboBoxModel(new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+		daySelector.setBounds(100, 66, 49, 22);
+		detailsPanel.add(daySelector);
+		
+		JComboBox yearSelector = new JComboBox();
+		yearSelector.setModel(new DefaultComboBoxModel(new String[] {"2020", "2021", "2022", "2023"}));
+		yearSelector.setBounds(161, 66, 64, 22);
+		detailsPanel.add(yearSelector);
 		
 		JPanel roomPanel = new JPanel();
 		roomPanel.setBackground(new Color(255,242,204));
@@ -211,10 +210,6 @@ public class ReservationWindow extends JFrame {
 		lblState.setBounds(140, 168, 90, 14);
 		guestInfoPanel.add(lblState);
 		
-		JList list = new JList();
-		list.setBounds(140, 193, 114, 20);
-		guestInfoPanel.add(list);
-		
 		myPhone = new JTextField();
 		myPhone.setColumns(10);
 		myPhone.setBounds(34, 249, 220, 20);
@@ -233,6 +228,13 @@ public class ReservationWindow extends JFrame {
 		lblEmail.setBounds(34, 280, 90, 14);
 		guestInfoPanel.add(lblEmail);
 		
+		JComboBox stateSelector = new JComboBox();
+		stateSelector.setModel(new DefaultComboBoxModel(new String[] {"AL", "AK", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "HI", "IA", 
+				"ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", 
+				"OK", "OH", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"}));
+		stateSelector.setBounds(140, 192, 114, 22);
+		guestInfoPanel.add(stateSelector);
+		
 		JButton btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -246,10 +248,15 @@ public class ReservationWindow extends JFrame {
 		JButton btnMakeReservation = new JButton("MAKE RESERVATION");
 		btnMakeReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String checkIn, mySuite;
+				String checkIn, mySuite, myState, dateString;
 				String firstName,lastName,address,city,phone,email;
 				int numAdults, numChild, numNights;
-				checkIn = myCheckIn.getText();
+				
+				int month = (monthSelector.getSelectedIndex() + 1);
+				String day =  (String) daySelector.getSelectedItem();
+				String year = (String) yearSelector.getSelectedItem();
+				dateString = month + "/" + day + "/" + year;
+				
 				numNights = (nightsSelector.getSelectedIndex() + 1);
 				numAdults = (int) adultsCount.getValue();
 				numChild = (int) childCount.getValue();
@@ -259,25 +266,28 @@ public class ReservationWindow extends JFrame {
 				lastName = myLastName.getText();
 				address = myAddress.getText();
 				city = myCity.getText();
+				myState = (String) stateSelector.getSelectedItem();
 				phone = myPhone.getText();
 				email = myEmail.getText();
 				
-				//Create a Database Connection object
-				DBConnector DB = new DBConnector();
-				
-				//Add the guest to the guest table in the database
-				Guest thisGuest = new Guest(firstName, lastName, address, city, phone, email);
-				DB.createGuest(thisGuest);
-				
-				//get a room number based on selected suite
-				//add room number to the reservation details 
-				
-				//Add the reservation to the reservations table in the database
-				Reservation thisReservation = new Reservation(thisGuest, numAdults, numChild, checkIn, numNights, mySuite);
-				DB.createReservation(thisReservation);
-				//JOptionPane.showMessageDialog(null, "name Details: " + thisReservation.getSuiteSelected() + " \nAdults: " + thisReservation.getNumAdults());
-				
-				//confirm();
+				int n = JOptionPane.showConfirmDialog(
+					    null,
+					    "Confirm Reservation?",
+					    "Reservation Details",
+					    JOptionPane.YES_NO_OPTION);
+				if(n==0) {
+					DBConnector DB = new DBConnector();
+					Guest thisGuest = new Guest(firstName, lastName, address, city, myState, phone, email);
+					DB.createGuest(thisGuest);
+					int roomNum = DB.getRoomNumber(mySuite);
+					Reservation thisReservation = new Reservation(thisGuest, numAdults, numChild, dateString, numNights, mySuite, roomNum);
+					DB.createReservation(thisReservation);
+					DB.reserveRoom(roomNum);
+					
+					JOptionPane.showMessageDialog(null,
+						    "Reservation has been created.");
+					closeWindow();
+				}
 			}
 
 			private String getSuite() {
@@ -303,44 +313,6 @@ public class ReservationWindow extends JFrame {
 		titleLabel.setForeground(new Color(0, 100, 0));
 		titleLabel.setBounds(38, 11, 294, 40);
 		contentPane.add(titleLabel);
-	}
-	
-	public void confirm() {
-		//set room status to 'reserved'
-		
-		//add guest to guest table
-		
-		//add reservation to reservation table 
-		int n = JOptionPane.showConfirmDialog(
-			    this,
-			    "Confirm Reservation?",
-			    "Reservation Details",
-			    JOptionPane.YES_NO_OPTION);
-	}
-	
-	public int getRoomNumber(String suiteType) {
-		//open the database
-		
-		//open rooms table
-		
-		//get a room number with matching room type and 'open' status 
-		
-		//close the database 
-		return 0;
-	}
-	
-	public void finalizeReservation() {
-		//input validation for text fields
-		
-		//create a guest object
-		
-		//create a reservation object 
-		
-		//add guest to guest table
-		
-		//add reservation to reservations table 
-		
-		//show final message 
 	}
 	
 	public void closeWindow() {

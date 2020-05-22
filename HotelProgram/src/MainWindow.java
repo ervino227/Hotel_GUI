@@ -5,11 +5,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JToolBar;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class MainWindow extends JFrame {
 	MainWindow frame; 
@@ -119,6 +121,13 @@ public class MainWindow extends JFrame {
 		buttonsPanel.add(lblEditGuest);
 		
 		JButton btnOpenUpdateInfo = new JButton("UPDATE INFO");
+		btnOpenUpdateInfo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GuestWindow frame5 = new GuestWindow();
+				frame5.setLocationRelativeTo(null);
+				frame5.setVisible(true);
+			}
+		});
 		btnOpenUpdateInfo.setForeground(new Color(0, 100, 0));
 		btnOpenUpdateInfo.setBounds(76, 377, 163, 40);
 		buttonsPanel.add(btnOpenUpdateInfo);

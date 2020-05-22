@@ -1,10 +1,11 @@
 public class Reservation {
+
 	private String checkIn;
-	private int numAdults, numChildren, numNights;
+	private int numAdults, numChildren, numNights, roomNum;
 	private String suiteSelected;
 	private String firstName, lastName, phone;
 	
-	public Reservation(Guest g,int adults,int children,String inDate, int numNights, String suite) {
+	public Reservation(Guest g,int adults,int children,String inDate, int numNights, String suite, int room) {
 		firstName = g.getFirstName();
 		lastName = g.getLastName();
 		phone = g.getPhone();
@@ -13,6 +14,7 @@ public class Reservation {
 		checkIn = inDate;
 		this.numNights = numNights;
 		suiteSelected = suite;
+		roomNum = room;
 	}
 
 	public int getNumAdults() {
@@ -71,6 +73,14 @@ public class Reservation {
 		this.lastName = lastName;
 	}
 	
+	public int getRoomNum() {
+		return roomNum;
+	}
+
+	public void setRoomNum(int roomNum) {
+		this.roomNum = roomNum;
+	}
+
 	
 	
 	

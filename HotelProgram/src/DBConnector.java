@@ -34,9 +34,9 @@ public class DBConnector {
 				stmt = conn.createStatement();
 				// firstname, last name , address city phone email
 
-				String sql = "INSERT INTO guesttable (`firstName`, `lastName`, `Address`, `City`, `Phone`, `Email`) "
+				String sql = "INSERT INTO guesttable (`firstName`, `lastName`, `Address`, `City`, `State`, `Phone`, `Email`) "
 						+ "VALUES ('" + g.getFirstName() + "','" + g.getLastName() + "','" + g.getAddress() + "','"
-						+ g.getCity() + "','" + g.getPhone() + "','" + g.getEmail() + "');";
+						+ g.getCity() + "','" + g.getState() + "','" + g.getPhone() + "','" + g.getEmail() + "');";
 
 				stmt.executeUpdate(sql);
 			} catch (SQLException se) {
@@ -77,9 +77,9 @@ public class DBConnector {
 				// STEP 4: Execute a query
 				stmt = conn.createStatement();
 
-				String sql = "INSERT INTO `hotelsystem`.`reservations` (`firstName`, `lastName`, `numAdults`, `numChild`, `Check-In`,`numNights`, `SuiteType`) "
+				String sql = "INSERT INTO `hotelsystem`.`reservations` (`firstName`, `lastName`, `numAdults`, `numChild`, `Check-In`,`numNights`, `SuiteType`, `roomNumber`) "
 						+ "VALUES ('" + r.getFirstName() + "', '" + r.getLastName() + "', " + r.getNumAdults() + ", "
-						+ r.getNumChildren() + ", '" +  r.getCheckIn() + "', " +  r.getNumNights() + " , '" + r.getSuiteSelected() + "');";
+						+ r.getNumChildren() + ", '" +  r.getCheckIn() + "', " +  r.getNumNights() + " , '" + r.getSuiteSelected() + "' , '" + r.getRoomNum() + "');";
 
 				stmt.executeUpdate(sql);
 			} catch (SQLException se) {
@@ -107,6 +107,36 @@ public class DBConnector {
 			System.out.println("Missing fields");
 	}
 
+	public void deleteReservation(int resNum) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "DELETE FROM `reservations` WHERE `idreservations` = '"+ resNum +"' ;";
+			stmt.executeUpdate(sql);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+	}
+	
 	public Object[][] getReservations() {
 		Object[][] array = null;
 
@@ -125,7 +155,7 @@ public class DBConnector {
 			ResultSet results = stmt.executeQuery(sql);
 			results.last();
 			int numRows = results.getRow();
-			array = new Object[numRows][8];
+			array = new Object[numRows][9];
 			results.first();
 			for (int i = 1; i <= numRows; i++) {
 				int id = results.getInt("idreservations");
@@ -136,6 +166,7 @@ public class DBConnector {
 				String checkIn = results.getString(6);
 				int nights = results.getInt(7);
 				String suite = results.getString(8);
+				int roomNum = results.getInt(9);
 
 				array[i - 1][0] = id;
 				array[i - 1][1] = firstName;
@@ -145,6 +176,7 @@ public class DBConnector {
 				array[i - 1][5] = checkIn;
 				array[i - 1][6] = nights;
 				array[i - 1][7] = suite;
+				array[i - 1][8] = roomNum;
 
 				results.next();
 			}
@@ -229,7 +261,138 @@ public class DBConnector {
 		} // end try
 		return array;
 	}
+	
+	public Object[][] getGuests() {
+		Object[][] array = null;
 
+		try {
+			// STEP 2: Register JDBC driver
+			Class.forName("com.mysql.jdbc.Driver");
+
+			// STEP 3: Open a connection
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+
+			// STEP 4: Execute a query
+			stmt = conn.createStatement();
+
+			String sql = "SELECT * FROM guesttable;";
+
+			ResultSet results = stmt.executeQuery(sql);
+			results.last();
+			int numRows = results.getRow();
+			array = new Object[numRows][8];
+			results.first();
+			for (int i = 1; i <= numRows; i++) {
+				int id = results.getInt(1);
+				String firstName = results.getString(2);
+				String lastName = results.getString(3);
+				String address = results.getString(4);
+				String city = results.getString(5);
+				String state = results.getString(6);
+				String phone = results.getString(7);
+				String email = results.getString(8);
+
+				array[i - 1][0] = id;
+				array[i - 1][1] = firstName;
+				array[i - 1][2] = lastName;
+				array[i - 1][3] = address;
+				array[i - 1][4] = city;
+				array[i - 1][5] = state;
+				array[i - 1][6] = phone;
+				array[i - 1][7] = email;
+
+				results.next();
+			}
+
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return array;
+	}
+	
+	public void updateGuest(int guestNum, String address, String city, String state, String phone, String email) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "UPDATE guesttable SET address = '" + address + "', city = '" + city + "', state = '" + state + "', phone = '" + phone + "', email = '" + email + "' WHERE guestNumber = " + guestNum + ";";
+			stmt.executeUpdate(sql);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+	}
+	
+	public int getRoomNumber(String suiteType) {
+		int id = 0;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "SELECT * FROM hotelrooms WHERE roomType = '" + suiteType + "' AND status = 'Open';";
+			ResultSet results = stmt.executeQuery(sql);
+			results.first();
+			id = results.getInt(1);
+			
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+		return id;
+	}
+	
 	public void changeRoomStatus(int roomNum, String roomStatus) {
 		if (roomStatus.equals("Open")) {
 			// set to closed
@@ -292,6 +455,36 @@ public class DBConnector {
 		}
 	}
 
+	public void reserveRoom(int room) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "UPDATE hotelrooms SET status = 'Reserved' WHERE roomNumber = " + room + ";";
+			stmt.executeUpdate(sql);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
+	}
+	
 	public int getNumMasterRooms() {
 
 		int numRooms = 0;
@@ -464,6 +657,37 @@ public class DBConnector {
 			} // end finally try
 		} // end try
 		return numRooms;
+	}
+
+	
+	public void clearRoom(int roomNum) {
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/hotelsystem", USER, PASS);
+			stmt = conn.createStatement();
+			String sql = "UPDATE hotelrooms SET status = 'Open' WHERE roomNumber = " + roomNum + ";";
+			stmt.executeUpdate(sql);
+		} catch (SQLException se) {
+			// Handle errors for JDBC
+			se.printStackTrace();
+		} catch (Exception e) {
+			// Handle errors for Class.forName
+			e.printStackTrace();
+		} finally {
+			// finally block used to close resources
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException se2) {
+
+			} // nothing we can do
+			try {
+				if (conn != null)
+					conn.close();
+			} catch (SQLException se) {
+				se.printStackTrace();
+			} // end finally try
+		} // end try
 	}
 
 }

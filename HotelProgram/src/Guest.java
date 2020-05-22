@@ -1,16 +1,17 @@
 
 public class Guest {
-	String firstName, lastName, Address, City, Phone, email;
-	
-	public Guest(String f, String l, String a, String c, String p, String e) {
-			firstName = f;
-			lastName = l;
-			Address = a;
-			City = c;
-			Phone = p;
-			email = e;
-		}
-	
+	String firstName, lastName, Address, City, State, Phone, email;
+
+	public Guest(String f, String l, String a, String c, String st, String p, String e) {
+		firstName = f;
+		lastName = l;
+		Address = a;
+		City = c;
+		State = st;
+		Phone = p;
+		email = e;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -41,6 +42,14 @@ public class Guest {
 
 	public void setCity(String city) {
 		City = city;
+	}
+
+	public String getState() {
+		return State;
+	}
+
+	public void setState(String state) {
+		State = state;
 	}
 
 	public String getPhone() {
