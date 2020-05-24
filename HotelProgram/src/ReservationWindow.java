@@ -34,6 +34,7 @@ public class ReservationWindow extends JFrame {
 	 */
 	@SuppressWarnings("unchecked")
 	public ReservationWindow() {
+		//Database Connector obtains number of rooms of each room type
 		int masterRooms, queenRooms, twinRooms, familyRooms;
 		DBConnector DB = new DBConnector();
 		masterRooms = DB.getNumMasterRooms();
@@ -41,6 +42,7 @@ public class ReservationWindow extends JFrame {
 		twinRooms = DB.getNumTwinRooms();
 		familyRooms = DB.getNumFamilyRooms();
 		
+		//details for this window
 		setTitle("Lakeview Hotel - New Reservation");
 		setBounds(100, 100, 770, 646);
 		contentPane = new JPanel();
@@ -49,6 +51,7 @@ public class ReservationWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//JPanel containing reservation details 
 		JPanel detailsPanel = new JPanel();
 		detailsPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), 
 				new Color(160, 160, 160)), "Date and Party Options", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -104,6 +107,7 @@ public class ReservationWindow extends JFrame {
 		yearSelector.setBounds(161, 66, 64, 22);
 		detailsPanel.add(yearSelector);
 		
+		//JPanel containing Suite type and available rooms 
 		JPanel roomPanel = new JPanel();
 		roomPanel.setBackground(new Color(255,242,204));
 		roomPanel.setBorder(new TitledBorder(null, "Suite Selection", TitledBorder.CENTER, TitledBorder.TOP, null, null));
@@ -163,6 +167,7 @@ public class ReservationWindow extends JFrame {
 		availableFamily.setBounds(150, 113, 146, 19);
 		roomPanel.add(availableFamily);
 		
+		//JPanel containing fields for entering guest information 
 		JPanel guestInfoPanel = new JPanel();
 		guestInfoPanel.setBorder(new TitledBorder(null, "Guest Information", TitledBorder.CENTER, TitledBorder.TOP, null, null));
 		guestInfoPanel.setBackground(new Color(255,242,204));
@@ -245,6 +250,7 @@ public class ReservationWindow extends JFrame {
 		btnCancel.setBounds(38, 536, 163, 40);
 		contentPane.add(btnCancel);
 		
+		//Button to add a reservation and a guest to the database
 		JButton btnMakeReservation = new JButton("MAKE RESERVATION");
 		btnMakeReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -289,7 +295,11 @@ public class ReservationWindow extends JFrame {
 					closeWindow();
 				}
 			}
-
+ 
+			/**
+			 * Method for getting the suite type the user selected
+			 * @return the type of suite the user selected 
+			 */
 			private String getSuite() {
 				// TODO Auto-generated method stub
 				if(radioMaster.isSelected())

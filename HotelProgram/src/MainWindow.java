@@ -18,28 +18,10 @@ public class MainWindow extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-			
-					MainWindow frame = new MainWindow();
-					frame.setLocationRelativeTo(null);
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
+	 * Constructor for creating the MainWindow JFrame
 	 */
 	public MainWindow() {
+		//details for creating the window 
 		setName("MainWindow");
 		setTitle("Lakeview Hotel");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,25 +35,26 @@ public class MainWindow extends JFrame {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBounds(0, 0, 782, 31);
 		contentPane.add(toolBar);
-		
 		JButton btnNewButton_1 = new JButton("Main");
 		toolBar.add(btnNewButton_1);
-		
 		JButton btnNewButton_2 = new JButton("Settings");
 		toolBar.add(btnNewButton_2);
 		
+		//Panel to hold the buttons
 		JPanel buttonsPanel = new JPanel();
 		buttonsPanel.setBackground(new Color(255,242,204));
 		buttonsPanel.setBounds(0, 0, 314, 511);
 		contentPane.add(buttonsPanel);
 		buttonsPanel.setLayout(null);
 		
+		//Title for reservations section
 		JLabel lblNewLabel = new JLabel("<html><span style='font-size:15px'>"+"Reservations"+"</span></html>");
 		lblNewLabel.setForeground(new Color(0, 100, 0));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 56, 294, 40);
 		buttonsPanel.add(lblNewLabel);
 		
+		//button to open window to add new reservation 
 		JButton btnOpenAddNew = new JButton("ADD NEW");
 		btnOpenAddNew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,6 +67,7 @@ public class MainWindow extends JFrame {
 		btnOpenAddNew.setBounds(76, 107, 163, 40);
 		buttonsPanel.add(btnOpenAddNew);
 		
+		//button to open window to manage existing reservations 
 		JButton btnOpenManage = new JButton("MANAGE");
 		btnOpenManage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,12 +80,14 @@ public class MainWindow extends JFrame {
 		btnOpenManage.setBounds(76, 169, 163, 40);
 		buttonsPanel.add(btnOpenManage);
 		
+		//Title for managing rooms section
 		JLabel lblManageSuites = new JLabel("<html><span style='font-size:15px'>Manage Suites</span></html>");
 		lblManageSuites.setForeground(new Color(0, 100, 0));
 		lblManageSuites.setHorizontalAlignment(SwingConstants.CENTER);
 		lblManageSuites.setBounds(10, 221, 294, 40);
 		buttonsPanel.add(lblManageSuites);
 		
+		//Button to open window to manage rooms 
 		JButton btnOpenManageRooms = new JButton("MANAGE ROOMS");
 		btnOpenManageRooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -114,12 +100,14 @@ public class MainWindow extends JFrame {
 		btnOpenManageRooms.setBounds(76, 273, 163, 40);
 		buttonsPanel.add(btnOpenManageRooms);
 		
+		//title for editing guest info section
 		JLabel lblEditGuest = new JLabel("<html><span style='font-size:15px'>Edit Guest</span></html>");
 		lblEditGuest.setForeground(new Color(0, 100, 0));
 		lblEditGuest.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditGuest.setBounds(10, 325, 294, 40);
 		buttonsPanel.add(lblEditGuest);
 		
+		//button to open a window to edit/update guest information 
 		JButton btnOpenUpdateInfo = new JButton("UPDATE INFO");
 		btnOpenUpdateInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -132,6 +120,7 @@ public class MainWindow extends JFrame {
 		btnOpenUpdateInfo.setBounds(76, 377, 163, 40);
 		buttonsPanel.add(btnOpenUpdateInfo);
 		
+		//labels below contain info about the author 
 		JLabel lblNewLabel_1 = new JLabel("Ervens Delva");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setBounds(104, 463, 106, 14);

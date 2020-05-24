@@ -17,15 +17,16 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
 
 public class GuestWindow extends JFrame {
-
+	//The GuestWindow fields 
 	private JPanel contentPane;
 	private JTable table;
 	JScrollPane scrollPane;
 
 	/**
-	 * Create the frame.
+	 * Constructor for creating the GuestWindow JFrame
 	 */
 	public GuestWindow() {
+		//Window details
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 770, 645);
 		contentPane = new JPanel();
@@ -39,10 +40,12 @@ public class GuestWindow extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		//ScrollPane to hold the table data
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(44, 88, 668, 355);
 		panel.add(scrollPane);
 		
+		//data for creating the table 
 		String[] colNames = {"Guest #", "First Name", "Last Name", "Address", "City", "State", "Phone", "Email" };
 		DBConnector DB = new DBConnector();
 		Object[][] data = DB.getGuests();
@@ -54,16 +57,20 @@ public class GuestWindow extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
 		
+		//Label for the Window title 
 		JLabel lbleditGuest = new JLabel("<html><span style='font-size:15px'>Edit Guest</span></html>");
 		lbleditGuest.setHorizontalAlignment(SwingConstants.LEFT);
 		lbleditGuest.setForeground(new Color(0, 100, 0));
 		lbleditGuest.setBounds(44, 22, 294, 40);
 		panel.add(lbleditGuest);
 		
+		//Button to update the information on a selected guest in the table 
 		JButton btnUpdateInfo = new JButton("UPDATE INFO");
 		btnUpdateInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int myRow = table.getSelectedRow();
+				int myRow = table.getSelectedRow(); //gets the row the user selects
+				
+				//if a row is selected...
 				if(myRow != -1) {
 					int guestNum = (int) table.getValueAt(myRow, 0);
 					String address = (String) table.getValueAt(myRow, 3);
@@ -79,7 +86,7 @@ public class GuestWindow extends JFrame {
 						scrollPane.setViewportView(table);
 					}
 				}
-				else
+				else //if a row is not selected...
 					JOptionPane.showMessageDialog(null, "Select a guest to edit");
 			}
 		});
@@ -88,6 +95,7 @@ public class GuestWindow extends JFrame {
 		btnUpdateInfo.setBounds(549, 500, 163, 40);
 		panel.add(btnUpdateInfo);
 		
+		//Button for closing the window 
 		JButton btnGoBack = new JButton("GO BACK");
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,6 +108,9 @@ public class GuestWindow extends JFrame {
 		panel.add(btnGoBack);
 	}
 	
+	/**
+	 * Method for closing the current window
+	 */
 	private void closeWindow() {
 		this.dispose();
 	}

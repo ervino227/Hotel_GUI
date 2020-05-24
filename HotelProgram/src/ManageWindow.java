@@ -24,9 +24,10 @@ public class ManageWindow extends JFrame {
 	Object[][] data;
 
 	/**
-	 * Create the frame.
+	 * Constructor for creating the ManageWindow JFrame
 	 */
 	public ManageWindow() {
+		//details for creating the window 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 770, 650);
 		contentPane = new JPanel();
@@ -35,6 +36,7 @@ public class ManageWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//button for closing the current window
 		JButton btnCancel = new JButton("GO BACK");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -45,17 +47,19 @@ public class ManageWindow extends JFrame {
 		btnCancel.setBounds(43, 520, 163, 40);
 		contentPane.add(btnCancel);
 		
+		//Label for the title of current window
 		JLabel lblmanageReservations = new JLabel("<html><span style='font-size:15px'>Manage Reservations</span></html>");
 		lblmanageReservations.setHorizontalAlignment(SwingConstants.LEFT);
 		lblmanageReservations.setForeground(new Color(0, 100, 0));
 		lblmanageReservations.setBounds(43, 11, 294, 40);
 		contentPane.add(lblmanageReservations);
 		
+		//details for adding to the table 
 		String[] colNames = {"Reservation #", "First Name", "Last Name", "Adults", "Children", "Check-In", "Nights", "Suite", "Room"};
 		DBConnector DB = new DBConnector();
 		data = DB.getReservations();
 		
-		
+		//ScrollPane for holding the table 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(43, 81, 667, 405);
 		contentPane.add(scrollPane);
@@ -63,6 +67,7 @@ public class ManageWindow extends JFrame {
 		scrollPane.setViewportView(table);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		//button used to delete a reservation selected from the table 
 		JButton btnDeleteReservation = new JButton("DELETE RESERVATION");
 		btnDeleteReservation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +96,9 @@ public class ManageWindow extends JFrame {
 		
 		
 	}
-	
+	/**
+	 * Method for closing the current window 
+	 */
 	public void closeWindow() {
 		this.dispose();
 	}

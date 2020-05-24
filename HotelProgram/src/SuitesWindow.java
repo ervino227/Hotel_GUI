@@ -16,20 +16,16 @@ import javax.swing.border.EmptyBorder;
 
 public class SuitesWindow extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTable table;
 	private JScrollPane scrollPane;
 	JTextArea textArea;
 
-	/**
-	 * Create the frame.
-	 */
+
 	@SuppressWarnings("deprecation")
 	public SuitesWindow() {
+		//Window details 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 770, 650);
 		contentPane = new JPanel();
@@ -38,6 +34,7 @@ public class SuitesWindow extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
+		//button to close this window
 		JButton btnCancel = new JButton("CANCEL");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -48,12 +45,14 @@ public class SuitesWindow extends JFrame {
 		btnCancel.setBounds(44, 518, 163, 40);
 		contentPane.add(btnCancel);
 
+		//******unused button************
 		JButton btnAddRooms = new JButton("ADD ROOM(S)");
 		btnAddRooms.setVisible(false);
 		btnAddRooms.setForeground(new Color(0, 100, 0));
 		btnAddRooms.setBounds(475, 174, 220, 40);
 		contentPane.add(btnAddRooms);
 
+		//button for enabling/disabling a selected room
 		JButton btnEnabledisable = new JButton("ENABLE/DISABLE");
 		btnEnabledisable.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +79,7 @@ public class SuitesWindow extends JFrame {
 		btnEnabledisable.setBounds(475, 106, 220, 40);
 		contentPane.add(btnEnabledisable);
 
+		//ScrollPane to hold the table 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(44, 106, 386, 373);
 		contentPane.add(scrollPane);
@@ -121,10 +121,12 @@ public class SuitesWindow extends JFrame {
 		lblmanageSuites.setBounds(44, 55, 294, 40);
 		contentPane.add(lblmanageSuites);
 		
+		//ScrollPane to hold the TextArea 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(475, 254, 220, 216);
 		contentPane.add(scrollPane_1);
 		
+		//Text area to show recent changes made to the table 
 		textArea = new JTextArea();
 		textArea.setEditable(false);
 		scrollPane_1.setViewportView(textArea);
