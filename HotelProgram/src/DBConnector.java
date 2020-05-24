@@ -12,7 +12,7 @@ public class DBConnector {
 
 	// Database credentials
 	static final String USER = "root";
-	static final String PASS = "";
+	static final String PASS = " ";
 
 	Connection conn = null;
 	Statement stmt = null;
